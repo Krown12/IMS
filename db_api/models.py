@@ -1,32 +1,36 @@
 from django.db import models
-
+from django.core.validators import MaxValueValidator, MinValueValidator
 # Create your models here.
 
 class category(models.Model):
     categories = (
-    ("Electronics", "E"),
-    ("Clothing", "C"),
-    ("Home and Kitchen", "HK"),
-    ("Books", "B"),
-    ("Sports and Outdoors", "S&O"),
-    ("Beauty and Personal Care", "B&PC"),
-    ("Toys and Games", "T&G"),
-    ("Furniture", "F"),
-    ("Automotive", "A"),
-    ("Health and Wellness", "H&W"),
-    ("Grocery", "G"),
-    ("Jewelry", "J"),
+    ('E', 'Electronics'), 
+    ('C', 'Clothing'), 
+    ('HK', 'Home and Kitchen'),
+    ('B', 'Books'),
+    ('S&O', 'Sports and Outdoors'), 
+    ('B&PC', 'Beauty and Personal Care'), 
+    ('T&G', 'Toys and Games'), 
+    ('F', 'Furniture'), 
+    ('A', 'Automotive'), 
+    ('H&W', 'Health and Wellness'), 
+    ('G', 'Grocery'), 
+    ('J', 'Jewelry'),
+    ("NONE","UNAVIALABLE")
     # Add more categories as needed
     )
-    name=models.CharField(max_length=10,options = categories)
+    name=models.CharField(max_length=100,choices = categories,default="NONE")
 
 
 class Product(models.Model):
     name = models.CharField(max_length=150)
     price = models.IntegerField()
     description = models.TextField()
-    discount = models.IntegerField(max_value = 100)
-    category_id = models.ForeignKey(on_delete=models.SET_NULL)
+    discount = models.IntegerField(validators=[
+            MaxValueValidator(100),
+            MinValueValidator(0)
+        ],default = 0)
+    category_id = models.ForeignKey(category,on_delete=models.SET_NULL,null=True,blank=True)
 
 class user(models.Model):
     male ="M"
@@ -37,7 +41,8 @@ class user(models.Model):
     email =  models.EmailField()
     number = models.CharField(max_length=10)
     is_verified = models.BooleanField(default = False)
-    gender = models.CharField(options = Gender,max_length = 1)
+    gender = models.CharField(choices = Gender,max_length = 1)
     country = models.CharField(max_length = 100)
     address = models.CharField(max_length = 100)
     
+
