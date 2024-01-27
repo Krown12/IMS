@@ -1,12 +1,12 @@
-# from .views import login
+from .views import login
 
-# from rest_framework.routers import SimpleRouter
-# router = SimpleRouter()
+from rest_framework.routers import SimpleRouter
+router = SimpleRouter()
 
-# router.register("login",login,basename="login")
-# urlpatterns = [
+router.register("login",login,basename="login")
+urlpatterns = [
     
-# ]+router.urls
+]+router.urls
 urlpatterns = [
     
 ]

@@ -20,6 +20,9 @@ class category(models.Model):
     # Add more categories as needed
     )
     name=models.CharField(max_length=100,choices = categories,default="NONE")
+    def __str__(self):
+        return self.name
+    
 
 
 class Product(models.Model):
@@ -30,9 +33,11 @@ class Product(models.Model):
             MaxValueValidator(100),
             MinValueValidator(0)
         ],default = 0)
-    category_id = models.ForeignKey(category,on_delete=models.SET_NULL,null=True,blank=True)
+    category = models.ForeignKey(category,on_delete=models.SET_NULL,null=True,blank=True)
+    def __str__(self):
+        return self.name
 
-class user(models.Model):
+class user_info(models.Model):
     male ="M"
     female ="F"
     others ='O'
@@ -44,5 +49,7 @@ class user(models.Model):
     gender = models.CharField(choices = Gender,max_length = 1)
     country = models.CharField(max_length = 100)
     address = models.CharField(max_length = 100)
+    def __str__(self):
+        return self.email
     
 
